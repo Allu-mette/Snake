@@ -1,2 +1,4 @@
-READ ME
+# Multiplayer Snake
+
+Run server.py and run.py
 
