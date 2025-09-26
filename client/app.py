@@ -17,8 +17,8 @@ class App:
         self.game = None
 
         self.table = [["ID", "NAME", "PING"],
-                      [1, "Khalil", 48],
-                      [2, "Sarah", 16]]
+                      [1, "test1", 48],
+                      [2, "test2", 16]]
         
         if self.net.id == -1:
             self.initialization("OFFLINE")

@@ -1,13 +1,12 @@
 import socket
 import sys
 import threading
-import keyboard
-import time
+import configparser
 import processData
 
 tcpsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 server_ip = socket.gethostbyname(socket.gethostname())
+
 server_ip = "127.0.0.1"
 port = 7777
 
@@ -17,10 +16,10 @@ try:
 except socket.error as e:
     print(e)
     
-print("Waiting for a connection")
 tcpsocket.listen(5)
+tcpsocket.settimeout(1.0)
 
-currentId = "0"
+currentId = 0
 pos = ["0:50,50", "1:100,100"]
 clientList = {}
 lobbyList = {}
@@ -242,37 +241,32 @@ class clientThread(threading.Thread):
                 
         else:
             print(f"ERROR: this clientId: {self.id} doesn't exist")
-    
-class inputThread(threading.Thread):
-    global tcpsocket
-    
-    def __ini__(self):
-        threading.Thread.__init__(self)
-        self.name = f"Client Thread"
-        self.name = "Input Thread"
+
+try:
+    print("\nServer running...Press Ctrl+C to stop.")
+    print("-----------------\n")
+    print("Waiting for connection...")
+    while True:
         
-    def run(self):
-        while(True):
-            if keyboard.is_pressed('Escape'):
-                tcpsocket.close()
-                break
+        try:    
+            conn, addr = tcpsocket.accept()
+        except socket.timeout:
+            continue
+        print("Connected to: ", addr)
+        client = clientThread(conn, addr, str(currentId))
+        client.start()
 
-input = inputThread()
-input.start()
-
-while True:
+        currentId += 1 
     
-    try:
-        conn, addr = tcpsocket.accept()
-        
-    except OSError:
-        print("Server Closed")
-        break
-    
-    print("Connected to: ", addr)
-    client = clientThread(conn, addr, currentId)
-    client.start()
+except KeyboardInterrupt:
+    print("\nServer closed...")
 
-    currentId = str(int(currentId)+1)
+finally:
+    tcpsocket.close()
+
+    
+
+    
+    
 
     
