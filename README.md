@@ -49,8 +49,9 @@ python run.py
 
 ## Screenshots
 
-![Lobby selection](docs/lobby-selection.png)
-![Gameplay](docs/gameplay.png)
+<img src="docs/lobby-selection.png" width="256" alt="Lobby selection"/>
+<img src="docs/gameplay.png" width="256" alt="Gameplay"/>
+
 
 ## Customize
 There is no configuration file yet.   
